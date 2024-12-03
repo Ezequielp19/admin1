@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="2">Nombre</ion-col>
+      <ion-col size="2">Apellido</ion-col>
+      <ion-col size="2">Email</ion-col>
+      <ion-col size="2">Acciones</ion-col>
+    </ion-row>
+
+    <ng-container *ngFor="let usuario of usuarios">
+      <ion-row>
+        <ion-col size="2">{{ usuario?.nombre }}</ion-col>
+        <ion-col size="2">{{ usuario.apellido }}</ion-col>
+        <ion-col size="2">{{ usuario.email }}</ion-col>
+        <ion-col size="2">
+          <ion-button color="danger" fill="outline" (click)="eliminarUsuario(usuario)">
+            Eliminar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-title>Usuarios Pendientes</ion-title>
+      </ion-col>
+    </ion-row>
+
+    <ng-container *ngFor="let usuario of usuariosPendientes">
+      <ion-row>
+        <ion-col size="2">{{ usuario.nombre }}</ion-col>
+        <ion-col size="2">{{ usuario.apellido }}</ion-col>
+        <ion-col size="2">{{ usuario.email }}</ion-col>
+        <ion-col size="2">
+          <ion-button color="success" fill="outline" (click)="aprobarUsuario(usuario)">
+            Aprobar
+          </ion-button>
+          <ion-button color="danger" fill="outline" (click)="eliminarUsuarioPendiente(usuario)">
+            Eliminar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+  </ion-grid>
+</ion-content>

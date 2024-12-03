@@ -1,0 +1,60 @@
+<ion-app>
+  <ion-header style="align-items: center;">
+    <ion-toolbar color="primary" >
+      <ion-title style="text-align: center;"  >Administrador</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+
+    <div class="welcome-section">
+      <h2>¡Bienvenido al administrador de Argentina MAQ</h2>
+      <div *ngIf="clima" class="weather-info">
+        <img [src]="clima.current.condition.icon" alt="Icono del clima">
+        <p>
+          {{ clima.location.name }}, {{ clima.location.country }} |
+          {{ clima.current.temp_c }}°C |
+          {{ clima.current.condition.text }}
+        </p>
+      </div>
+      <div *ngIf="errorMensaje" class="error-message">
+        <p>{{ errorMensaje }}</p>
+      </div>
+    </div>
+
+    <div class="button-section">
+      <ion-button expand="full" routerLink="/productos">
+        <ion-icon name="cube-outline" slot="start"></ion-icon>
+        Maquinarias
+      </ion-button>
+
+      <ion-button expand="full" routerLink="/productosOferta">
+        <ion-icon name="cube-outline" slot="start"></ion-icon>
+        Discos de corte
+      </ion-button>
+
+      <!-- <ion-button expand="full" routerLink="/etiquetas">
+        <ion-icon name="pricetags-outline" slot="start"></ion-icon>
+        Gestionar Etiquetas
+      </ion-button> -->
+
+      <ion-button expand="full" routerLink="/categoria">
+        <ion-icon name="layers-outline" slot="start"></ion-icon>
+        Tipo de Maquinaria
+      </ion-button>
+
+      <ion-button expand="full" routerLink="/marcas">
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
+        Banner Giratorio
+      </ion-button>
+
+<!--
+      <ion-button expand="full" routerLink="/usuarios">
+        <ion-icon name="layers-outline" slot="start"></ion-icon>
+        Usuarios
+      </ion-button> -->
+
+
+    </div>
+  </ion-content>
+</ion-app>
