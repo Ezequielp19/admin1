@@ -66,7 +66,7 @@ import {
 })
 export class CategoriasPage implements OnInit {
   categorias: Categoria[] = [];
-  nuevaCategoria: Categoria = { nombre: '', imagen: '' };
+  nuevaCategoria: Categoria = { nombre: '' };
   categoriaForm: FormGroup;
   isModalOpen: boolean = false;
   editMode: boolean = false;
@@ -85,7 +85,7 @@ export class CategoriasPage implements OnInit {
     this.categoriaForm = this.fb.group({
       id: [''],
       nombre: ['', Validators.required],
-      imagen: ['']
+      // imagen: ['']
     });
   }
 
@@ -118,10 +118,10 @@ export class CategoriasPage implements OnInit {
     this.imagenCategoria = event.target.files[0];
   }
 
-  async agregarCategoria(nombre: string, imagen: File) {
-    const nuevaCategoria: Categoria = { nombre, imagen: '' };
+  async agregarCategoria(nombre: string) {
+    const nuevaCategoria: Categoria = { nombre};
     try {
-      const categoriaAgregada = await this.firestoreService.addCategoria(nuevaCategoria, imagen);
+      const categoriaAgregada = await this.firestoreService.addCategoria(nuevaCategoria);
       this.categorias.push(categoriaAgregada); // Asegurarse de que la categoría agregada tenga el id correcto
       console.log('Categoría agregada:', categoriaAgregada);
     } catch (error) {
@@ -139,9 +139,9 @@ async agregarOEditarCategoria() {
     try {
       if (this.editMode && this.categoriaAEditar) {
         categoriaData.id = this.categoriaAEditar.id;
-        await this.firestoreService.updateCategoria(categoriaData, this.imagenCategoria);
+       
       } else {
-        await this.firestoreService.addCategoria(categoriaData, this.imagenCategoria);
+        await this.firestoreService.addCategoria(categoriaData);
       }
       window.alert('Categoría guardada con éxito.');
     } catch (error) {

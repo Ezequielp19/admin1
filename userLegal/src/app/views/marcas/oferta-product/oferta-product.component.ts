@@ -196,10 +196,7 @@ getProductosPaginados(): Productoferta[] {
 
 
 async agregarProducto() {
-    if (this.productoOfertaForm.invalid) {
-      window.alert('Por favor, completa todos los campos requeridos.');
-      return;
-    }
+ 
 
     this.isLoading = true; // Mostrar el spinner
 
@@ -318,8 +315,8 @@ async editarProducto(producto: Productoferta) {
     id: producto.id,
     nombre: producto.nombre,
     descripcion: producto.descripcion,
-   
-    categoria: producto.categoria,
+
+
 
     imagen: producto.imagen
   });

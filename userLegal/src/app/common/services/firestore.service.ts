@@ -161,53 +161,21 @@ export class FirestoreService {
     })) as Categoria[];
   }
 
-  // Añadir una nueva categoría
-  async addCategoria(categoria: Categoria, imagen: File): Promise<Categoria> {
-    try {
-      if (imagen) {
-        const storageRef = ref(this.storage, `categorias/${imagen.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, imagen);
-        await uploadTask;
-        categoria.imagen = await getDownloadURL(storageRef);
-      }
-      const id = uuidv4(); // Generar un id único
-      const docRef = doc(this.firestore, `categorias/${id}`);
-      await setDoc(docRef, { ...categoria, id });
-      console.log(`Categoría añadida con id: ${id}`);
-      return { ...categoria, id };
-    } catch (error) {
-      console.error('Error añadiendo la categoría:', error);
-      throw error;
-    }
+// Añadir una nueva categoría sin imagen
+async addCategoria(categoria: Categoria): Promise<Categoria> {
+  try {
+    const id = uuidv4(); // Generar un id único
+    const docRef = doc(this.firestore, `categorias/${id}`);
+    await setDoc(docRef, { ...categoria, id });
+    console.log(`Categoría añadida con id: ${id}`);
+    return { ...categoria, id };
+  } catch (error) {
+    console.error('Error añadiendo la categoría:', error);
+    throw error;
   }
+}
 
-  // Actualizar una categoría existente
-  async updateCategoria(categoria: Categoria, imagen?: File): Promise<void> {
-    try {
-      if (!categoria.id) {
-        throw new Error('La categoría debe tener un id para ser actualizada.');
-      }
 
-      if (imagen) {
-        // Eliminar la imagen anterior si existe
-        if (categoria.imagen) {
-          const storageRef = ref(this.storage, categoria.imagen);
-          await deleteObject(storageRef);
-        }
-
-        // Subir la nueva imagen
-        const newStorageRef = ref(this.storage, `categorias/${imagen.name}`);
-        const uploadTask = uploadBytesResumable(newStorageRef, imagen);
-        await uploadTask;
-        categoria.imagen = await getDownloadURL(newStorageRef);
-      }
-
-      const categoriaRef = doc(this.firestore, 'categorias', categoria.id);
-      await updateDoc(categoriaRef, { ...categoria });
-    } catch (error) {
-      console.error('Error actualizando la categoría:', error);
-    }
-  }
 
   // Eliminar una categoría
   async deleteCategoria(categoria: Categoria): Promise<void> {
@@ -217,12 +185,6 @@ export class FirestoreService {
       }
 
       console.log(`Intentando eliminar la categoría con id: ${categoria.id}`);
-
-      if (categoria.imagen) {
-        const storageRef = ref(this.storage, categoria.imagen);
-        await deleteObject(storageRef);
-        console.log(`Imagen eliminada: ${categoria.imagen}`);
-      }
 
       const categoriaRef = doc(this.firestore, 'categorias', categoria.id);
       await deleteDoc(categoriaRef);
@@ -306,7 +268,7 @@ export class FirestoreService {
       id: doc.id,
       nombre: data['nombre'],
       descripcion: data['descripcion'],
-      categoria: data['categoria'],
+
       imagen: data['imagen'] || null,
     } as Productoferta;
   });
